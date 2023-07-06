@@ -12,24 +12,26 @@ RUN apk add --no-cache alpine-sdk && \
     cd drone && \
     export TAG=$(git describe --tags $(git rev-list --tags --max-count=1)) && \
     git checkout tags/$TAG -b $TAG && \
-    go build -tags "nolimit" ./cmd/drone-server
+    GOARCH=amd64 go build -tags "nolimit" ./cmd/drone-server-amd64 && \
+    GOARCH=arm64 go build -tags "nolimit" ./cmd/drone-server-arm64
 
 FROM alpine
 MAINTAINER Michael Joseph Walsh <github.com@nemonik.com>
+
+ARG TARGETOS
 
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV GODEBUG netdns=go
 ENV XDG_CACHE_HOME /data
 ENV DRONE_SERVER_PORT :80
 ENV DRONE_RUNNER_OS linux
-ENV DRONE_RUNNER_ARCH amd64
 ENV DRONE_SERVER_HOST localhost
 ENV DRONE_DATABASE_DRIVER sqlite3
 ENV DRONE_DATABASE_DATASOURCE /data/database.sqlite
 ENV DRONE_DATADOG_ENABLED true
 ENV DRONE_DATADOG_ENDPOINT https://stats.drone.ci/api/v1/series
 
-COPY --from=builder /build/drone/drone-server /bin/
+COPY --from=builder /build/drone/drone-server-${TARGETOS} /bin/
 
 RUN apk add --no-cache sqlite sqlite-dev zip && \
     mkdir /data
