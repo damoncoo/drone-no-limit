@@ -18,7 +18,7 @@ RUN apk add --no-cache alpine-sdk && \
 FROM alpine
 MAINTAINER Michael Joseph Walsh <github.com@nemonik.com>
 
-ARG TARGETOS
+ARG TARGETARCH
 
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV GODEBUG netdns=go
@@ -31,7 +31,7 @@ ENV DRONE_DATABASE_DATASOURCE /data/database.sqlite
 ENV DRONE_DATADOG_ENABLED true
 ENV DRONE_DATADOG_ENDPOINT https://stats.drone.ci/api/v1/series
 
-COPY --from=builder /build/drone/drone-server-${TARGETOS} /bin/
+COPY --from=builder /build/drone/drone-server-${TARGETARCH} /bin/
 
 RUN apk add --no-cache sqlite sqlite-dev zip && \
     mkdir /data
