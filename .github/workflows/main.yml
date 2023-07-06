@@ -1,14 +1,9 @@
 name: Building and Pushed
 on:
-  schedule:
-       - cron: "40 13 * * *"   
   push:
     branches:
       - master
-    paths:
-      - Dockerfile
-      - .github/workflows/main.yml
-
+      
 jobs:
   build:
     runs-on: Ubuntu-20.04
