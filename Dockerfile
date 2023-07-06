@@ -12,8 +12,8 @@ RUN apk add --no-cache alpine-sdk && \
     cd drone && \
     export TAG=$(git describe --tags $(git rev-list --tags --max-count=1)) && \
     git checkout tags/$TAG -b $TAG && \
-    GOARCH=amd64 go build -tags "nolimit" ./cmd/drone-server-amd64 && \
-    GOARCH=arm64 go build -tags "nolimit" ./cmd/drone-server-arm64
+    GOARCH=amd64 go build -tags "nolimit" -o drone-server-amd64 ./cmd/drone-server-amd64 && \
+    GOARCH=arm64 go build -tags "nolimit" -o drone-server-arm64 ./cmd/drone-server-arm64
 
 FROM alpine
 MAINTAINER Michael Joseph Walsh <github.com@nemonik.com>
