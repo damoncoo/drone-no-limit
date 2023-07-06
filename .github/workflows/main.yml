@@ -42,4 +42,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           file: ./Dockerfile  
           push: true
-          tags: nemonik/drone:latest, nemonik/drone:${{ env.TAG }}
+          tags: damoncoo/drone:latest, damoncoo/drone:${{ env.TAG }}
