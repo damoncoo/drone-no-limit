@@ -31,7 +31,7 @@ ENV DRONE_DATABASE_DATASOURCE /data/database.sqlite
 ENV DRONE_DATADOG_ENABLED true
 ENV DRONE_DATADOG_ENDPOINT https://stats.drone.ci/api/v1/series
 
-COPY --from=builder /build/drone/drone-server-${TARGETARCH} /bin/
+COPY --from=builder /build/drone/drone-server-${TARGETARCH} /bin/drone-server
 
 RUN apk add --no-cache sqlite sqlite-dev zip && \
     mkdir /data
